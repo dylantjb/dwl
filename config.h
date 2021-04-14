@@ -72,8 +72,11 @@ static const int natural_scrolling = 0;
 #define CHVT(n) { WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_XF86Switch_VT_##n, chvt, {.ui = (n)} }
 
 /* commands */
-static const char *termcmd[] = { "$TERMINAL", NULL };
+static const char *termcmd[] = { "/bin/sh", "-c", "$TERMINAL", NULL };
 static const char *menucmd[] = { "/bin/sh", "-c", "j4-dmenu-desktop --term=$TERMINAL --dmenu=\"bemenu -i -b -n -p '> ' --fn 'Hack Nerd Font 10' --tf '#3b84c0' --hf '#3b84c0' --nb '#1e2127' --nf '#abb2bf' --sf '#61afef' --sb '#5c6370'\"", NULL };
+
+/* define extra keys */
+#define Print 0x0000ff61
 
 #include <X11/XF86keysym.h>
 static const Key keys[] = {
@@ -127,8 +130,8 @@ static const Key keys[] = {
     { 0,                         XF86XK_AudioNext,         spawn,		     SHCMD("playerctl next") },
     { 0,                         XF86XK_MonBrightnessUp,   spawn,		     SHCMD("backlight up") },
     { 0,                         XF86XK_MonBrightnessDown, spawn,		     SHCMD("backlight down") },
-    { MODKEY,			         XF86XK_Phone,             spawn,		     SHCMD("grimshot save area") },
-    { MODKEY|WLR_MODIFIER_SHIFT, XF86XK_Phone,             spawn,		     SHCMD("grimshot save screen") },
+    { 0,			             Print,                    spawn,		     SHCMD("grimshot save area") },
+    { 0|WLR_MODIFIER_SHIFT,      Print,                    spawn,		     SHCMD("grimshot save screen") },
 
     /* Exit dwl */
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Q,                spawn,            SHCMD("rofi -show p -modi p:rofi-power-menu -width 20 -lines 5") },
