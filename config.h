@@ -71,12 +71,12 @@ static const int natural_scrolling = 0;
 /* helper for changing virtual terminals */
 #define CHVT(n) { WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_XF86Switch_VT_##n, chvt, {.ui = (n)} }
 
-/* commands */
-static const char *termcmd[] = { "/bin/sh", "-c", "$TERMINAL", NULL };
-static const char *menucmd[] = { "/bin/sh", "-c", "j4-dmenu-desktop --term=$TERMINAL --dmenu=\"bemenu -i -b -n -p '> ' --fn 'Hack Nerd Font 10' --tf '#3b84c0' --hf '#3b84c0' --nb '#1e2127' --nf '#abb2bf' --sf '#61afef' --sb '#5c6370'\"", NULL };
-
 /* define extra keys */
 #define Print 0x0000ff61
+
+static const char *menucmd[] = { "/bin/sh", "-c", "j4-dmenu-desktop --term=$TERMINAL --dmenu=\"bemenu -i -b -n -p '> ' "
+                                                  "--fn 'Hack Nerd Font 10' --tf '#3b84c0' --hf '#3b84c0' --nb '#1e2127'"
+                                                  " --nf '#abb2bf' --sf '#61afef' --sb '#5c6370'\""};
 
 #include <X11/XF86keysym.h>
 static const Key keys[] = {
@@ -84,8 +84,8 @@ static const Key keys[] = {
 	/* modifier                  key                       function          argument */
 
     /* Base keybindings */
-	{ MODKEY,                    XKB_KEY_d,                spawn,            {.v = menucmd} },            
-	{ MODKEY,                    XKB_KEY_Return,           spawn,            {.v = termcmd} },
+	{ MODKEY,                    XKB_KEY_d,                spawn,            {.v = menucmd} },
+	{ MODKEY,                    XKB_KEY_Return,           spawn,            SHCMD("$TERMINAL") },
 	{ MODKEY,                    XKB_KEY_j,                focusstack,       {.i = +1} },
 	{ MODKEY,                    XKB_KEY_k,                focusstack,       {.i = -1} },
 	{ MODKEY,                    XKB_KEY_i,                incnmaster,       {.i = +1} },
@@ -134,7 +134,8 @@ static const Key keys[] = {
     { 0|WLR_MODIFIER_SHIFT,      Print,                    spawn,		     SHCMD("grimshot save screen") },
 
     /* Exit dwl */
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Q,                spawn,            SHCMD("rofi -show p -modi p:rofi-power-menu -width 20 -lines 5") },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Q,                spawn,            SHCMD("rofi -show p -modi p:rofi-power"
+                                                                                "-menu -width 20 -lines 5") },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_R,                quit,             {0} },
 
     /* Tags */
