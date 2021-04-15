@@ -1,11 +1,14 @@
+/* constants */
+#define TERMINAL "alacritty"
+
 /* appearance */
-static const int sloppyfocus        = 1;  /* focus follows mouse */
-static const unsigned int borderpx  = 1;  /* border pixel of windows */
-static const unsigned int gappih    = 6;  /* horiz inner gap between windows */
-static const unsigned int gappiv    = 6;  /* vert inner gap between windows */
-static const unsigned int gappoh    = 6;  /* horiz outer gap between windows and screen edge */
-static const unsigned int gappov    = 6;  /* vert outer gap between windows and screen edge */
-static const int smartgaps          = 0;  /* 1 means no outer gap when there is only one window */
+static const int sloppyfocus        = 1;
+static const unsigned int borderpx  = 1;
+/* static const unsigned int gappih    = 6; */
+/* static const unsigned int gappiv    = 6; */
+/* static const unsigned int gappoh    = 6; */
+/* static const unsigned int gappov    = 6; */
+/* static const int smartgaps          = 0; */
 static const float rootcolor[]      = {0.3, 0.3, 0.3, 1.0};
 static const float bordercolor[]    = {0.5, 0.5, 0.5, 1.0};
 static const float focuscolor[]     = {0.3, 0.5, 0.8, 1.0};
@@ -74,9 +77,11 @@ static const int natural_scrolling = 0;
 /* define extra keys */
 #define Print 0x0000ff61
 
-static const char *menucmd[] = { "/bin/sh", "-c", "j4-dmenu-desktop --term=$TERMINAL --dmenu=\"bemenu -i -b -n -p '> ' "
-                                                  "--fn 'Hack Nerd Font 10' --tf '#3b84c0' --hf '#3b84c0' --nb '#1e2127'"
-                                                  " --nf '#abb2bf' --sf '#61afef' --sb '#5c6370'\""};
+/* commands */
+static const char *termcmd[] = { TERMINAL, NULL };
+static const char *menucmd[] = { "/bin/sh", "-c", "j4-dmenu-desktop --term=" TERMINAL " --dmenu=\"bemenu -i -b -n -p '> ' "
+                                                  "--fn 'Hack Nerd Font 10' --tf '#3b84c0' --hf '#3b84c0' --nb '#1e2127' "
+                                                  "--nf '#abb2bf' --sf '#61afef' --sb '#5c6370'\""};
 
 #include <X11/XF86keysym.h>
 static const Key keys[] = {
@@ -85,7 +90,7 @@ static const Key keys[] = {
 
     /* Base keybindings */
 	{ MODKEY,                    XKB_KEY_d,                spawn,            {.v = menucmd} },
-	{ MODKEY,                    XKB_KEY_Return,           spawn,            SHCMD("$TERMINAL") },
+	{ MODKEY,                    XKB_KEY_Return,           spawn,            {.v = termcmd} },
 	{ MODKEY,                    XKB_KEY_j,                focusstack,       {.i = +1} },
 	{ MODKEY,                    XKB_KEY_k,                focusstack,       {.i = -1} },
 	{ MODKEY,                    XKB_KEY_i,                incnmaster,       {.i = +1} },
@@ -109,13 +114,14 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_greater,          tagmon,           {.i = WLR_DIRECTION_RIGHT} },
 
     /* Custom keybindings */
-    { MODKEY,			         XKB_KEY_Escape,           spawn,		     SHCMD("mylock") },
     { MODKEY,			         XKB_KEY_BackSpace,        spawn,		     SHCMD("skippy-wl") },
     { MODKEY,			         XKB_KEY_r,                spawn,		     SHCMD("kitty -e ranger") },
     { MODKEY,			         XKB_KEY_w,                spawn,		     SHCMD("$BROWSER") },
     { MODKEY,			         XKB_KEY_n,                spawn,		     SHCMD("networkmanager_bemenu") },
     { MODKEY,			         XKB_KEY_b,                spawn,		     SHCMD("bemenu-bluetooth") },
-    { MODKEY,			         XKB_KEY_t,                spawn,		     SHCMD("$TERMINAL -e btm") },
+    { MODKEY,			         XKB_KEY_t,                spawn,		     SHCMD(TERMINAL " -e btm") },
+    /* Wait for dwl to support screen locking */
+    /* { MODKEY,			         XKB_KEY_Escape,           spawn,		     SHCMD("mylock") }, */
 
     /* Function keys */
     { 0,                         XF86XK_AudioRaiseVolume,  spawn,		     SHCMD("volume up") },
@@ -140,11 +146,11 @@ static const Key keys[] = {
 
     /* Tags */
 	TAGKEYS(  XKB_KEY_1,         XKB_KEY_exclam,                  0),
-	TAGKEYS(  XKB_KEY_2,         XKB_KEY_at,                      1),
-	TAGKEYS(  XKB_KEY_3,         XKB_KEY_numbersign,              2),
+	TAGKEYS(  XKB_KEY_2,         XKB_KEY_quotedbl,                1),
+	TAGKEYS(  XKB_KEY_3,         XKB_KEY_sterling,                2),
 	TAGKEYS(  XKB_KEY_4,         XKB_KEY_dollar,                  3),
 	TAGKEYS(  XKB_KEY_5,         XKB_KEY_percent,                 4),
-	TAGKEYS(  XKB_KEY_6,         XKB_KEY_caret,                   5),
+	TAGKEYS(  XKB_KEY_6,         XKB_KEY_asciicircum,             5),
 	TAGKEYS(  XKB_KEY_7,         XKB_KEY_ampersand,               6),
 	TAGKEYS(  XKB_KEY_8,         XKB_KEY_asterisk,                7),
 	TAGKEYS(  XKB_KEY_9,         XKB_KEY_parenleft,               8),
