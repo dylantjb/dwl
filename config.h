@@ -1,6 +1,5 @@
 /* constants */
 #define TERMINAL "kitty"
-/* #define TERMCLASS "Kitty" */
 #define MODKEY  WLR_MODIFIER_LOGO
 #define ALTKEY  WLR_MODIFIER_ALT
 #define CTRLKEY WLR_MODIFIER_CTRL
@@ -22,10 +21,9 @@ static const float focuscolor[]     = {0.3, 0.5, 0.8, 1.0};
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 static const Rule rules[] = {
 	/* app_id     title       tags mask     isfloating   monitor */
-    /* TODO: Find out how to use this */
-    /* { "telegramdesktop", NULL, 8, 0, -1 }, */
-    /* { "discord",         NULL, 8, 0, -1 }, */
-    /* { "Spotify",         NULL, 9, 0, -1 }, */
+    { "telegramdesktop", NULL, 1 << 7,      0,           -1 },
+    { "discord",         NULL, 1 << 8,      0,           -1 },
+    { "Spotify",         NULL, 1 << 8,      0,           -1 },
 };
 
 /* layout(s) */
@@ -77,13 +75,13 @@ static const Button buttons[] = {
 
 /* commands */
 static const char *termcmd[] = { TERMINAL, NULL };
-static const char *menucmd[] = { "/bin/sh", "-c", "j4-dmenu-desktop --term=" TERMINAL " --dmenu=\"bemenu -i -b -n -p '> ' "
-                                                  "--fn 'Hack Nerd Font 10' --tf '#3b84c0' --hf '#3b84c0' --nb '#1e2127' "
+static const char *menucmd[] = { "/bin/sh", "-c", "j4-dmenu-desktop --no-generic --term=" TERMINAL " --dmenu=\"bemenu -i -b -n "
+                                                  "-p '> ' --fn 'Hack Nerd Font 10' --tf '#3b84c0' --hf '#3b84c0' --nb '#1e2127' "
                                                   "--nf '#abb2bf' --sf '#61afef' --sb '#5c6370'\"", NULL};
 
 static const char *networkcmd[] =   { "networkmanager_bemenu", NULL };
 static const char *bluetoothcmd[] = { "bemenu-bluetooth", NULL };
-static const char *browsercmd[] =   {"qutebrowser", NULL };
+static const char *browsercmd[] =   { "qutebrowser", NULL };
 static const char *lockcmd[] =      { "mylock", NULL };
 static const char *powercmd[] =     { "rofi", "-show", "p", "-modi", "p:rofi-power-menu", "-width", "20", "-lines", "5", NULL };
 
@@ -105,12 +103,12 @@ static const char *lightdown[] =   { "backlight", "down", NULL };
 static const char *printarea[] =   { "grimshot", "save", "area", NULL };
 static const char *printscreen[] = { "grimshot", "save", "screen", NULL };
 
+/* keybindings */
 #include <X11/XF86keysym.h>
 static const Key keys[] = {
-	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
-	/* modifier                  key                       function          argument */
+	/* modifier              key                       function          argument */
 
-    /* Base keybindings */
+    /* base keybindings */
 	{ MODKEY,                XKB_KEY_d,                spawn,            {.v = menucmd} },
 	{ MODKEY,                XKB_KEY_Return,           spawn,            {.v = termcmd} },
 	{ MODKEY,                XKB_KEY_j,                focusstack,       {.i = +1} },
@@ -151,16 +149,15 @@ static const Key keys[] = {
 	{ MODKEY|SHIFT,          XKB_KEY_less,             tagmon,           {.i = WLR_DIRECTION_LEFT} },
 	{ MODKEY|SHIFT,          XKB_KEY_greater,          tagmon,           {.i = WLR_DIRECTION_RIGHT} },
 
-    /* Custom keybindings */
+    /* custom keybindings */
     { MODKEY,			     XKB_KEY_r,                spawn,		     {.v = ranger} },
     { MODKEY,			     XKB_KEY_t,                spawn,		     {.v = bottom} },
     { MODKEY,			     XKB_KEY_w,                spawn,		     {.v = browsercmd} },
     { MODKEY,			     XKB_KEY_n,                spawn,		     {.v = networkcmd} },
     { MODKEY,			     XKB_KEY_b,                spawn,		     {.v = bluetoothcmd} },
-    /* Wait for dwl to support screen locking */
     { MODKEY,			     XKB_KEY_Escape,           spawn,		     {.v = lockcmd} },
 
-    /* Function keys */
+    /* function keys */
     { 0,                     XF86XK_AudioRaiseVolume,  spawn,		     {.v = volup} },
     { 0,                     XF86XK_AudioLowerVolume,  spawn,		     {.v = voldown} },
     { 0,                     XF86XK_AudioMute,         spawn,		     {.v = volmute} },
@@ -176,22 +173,23 @@ static const Key keys[] = {
     { 0,			         Print,                    spawn,		     {.v = printarea} },
     { 0|SHIFT,               Print,                    spawn,		     {.v = printscreen} },
 
-    /* Exit dwl */
+    /* exit dwl */
 	{ CTRLKEY|ALTKEY,        XKB_KEY_Terminate_Server, quit,             {0} },
 	{ MODKEY|SHIFT,          XKB_KEY_Delete,           quit,             {0} },
 	{ MODKEY|SHIFT,          XKB_KEY_Q,                spawn,            {.v = powercmd} },
 
-    /* Tags */
-	TAGKEYS(  XKB_KEY_1,     XKB_KEY_exclam,                             0),
-	TAGKEYS(  XKB_KEY_2,     XKB_KEY_quotedbl,                           1),
-	TAGKEYS(  XKB_KEY_3,     XKB_KEY_sterling,                           2),
-	TAGKEYS(  XKB_KEY_4,     XKB_KEY_dollar,                             3),
-    TAGKEYS(  XKB_KEY_5,     XKB_KEY_percent,                            4),
-	TAGKEYS(  XKB_KEY_6,     XKB_KEY_asciicircum,                        5),
-	TAGKEYS(  XKB_KEY_7,     XKB_KEY_ampersand,                          6),
-	TAGKEYS(  XKB_KEY_8,     XKB_KEY_asterisk,                           7),
-	TAGKEYS(  XKB_KEY_9,     XKB_KEY_parenleft,                          8),
+    /* tags */
+	TAGKEYS(XKB_KEY_1,       XKB_KEY_exclam,                             0),
+	TAGKEYS(XKB_KEY_2,       XKB_KEY_quotedbl,                           1),
+	TAGKEYS(XKB_KEY_3,       XKB_KEY_sterling,                           2),
+	TAGKEYS(XKB_KEY_4,       XKB_KEY_dollar,                             3),
+    TAGKEYS(XKB_KEY_5,       XKB_KEY_percent,                            4),
+	TAGKEYS(XKB_KEY_6,       XKB_KEY_asciicircum,                        5),
+	TAGKEYS(XKB_KEY_7,       XKB_KEY_ampersand,                          6),
+	TAGKEYS(XKB_KEY_8,       XKB_KEY_asterisk,                           7),
+	TAGKEYS(XKB_KEY_9,       XKB_KEY_parenleft,                          8),
 
+    /* virtual terminals */
 	CHVT(1), CHVT(2), CHVT(3), CHVT(4), CHVT(5), CHVT(6),
 	CHVT(7), CHVT(8), CHVT(9), CHVT(10), CHVT(11), CHVT(12),
 };
