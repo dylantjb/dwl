@@ -1,14 +1,15 @@
 /* constants */
 #define TERMINAL "alacritty"
+/* #define TERMCLASS "Alacritty" */
 
 /* appearance */
 static const int sloppyfocus        = 1;
 static const unsigned int borderpx  = 1;
-/* static const unsigned int gappih    = 6; */
-/* static const unsigned int gappiv    = 6; */
-/* static const unsigned int gappoh    = 6; */
-/* static const unsigned int gappov    = 6; */
-/* static const int smartgaps          = 0; */
+static const unsigned int gappih    = 6;
+static const unsigned int gappiv    = 6;
+static const unsigned int gappoh    = 6;
+static const unsigned int gappov    = 6;
+static const int smartgaps          = 0;
 static const float rootcolor[]      = {0.3, 0.3, 0.3, 1.0};
 static const float bordercolor[]    = {0.5, 0.5, 0.5, 1.0};
 static const float focuscolor[]     = {0.3, 0.5, 0.8, 1.0};
@@ -95,6 +96,22 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_k,                focusstack,       {.i = -1} },
 	{ MODKEY,                    XKB_KEY_i,                incnmaster,       {.i = +1} },
 	{ MODKEY,                    XKB_KEY_p,                incnmaster,       {.i = -1} },
+    { MODKEY|WLR_MODIFIER_ALT,   XKB_KEY_h,                incrgaps,         {.i = +1 } },
+	{ MODKEY|WLR_MODIFIER_ALT,   XKB_KEY_l,                incrgaps,         {.i = -1 } },
+	{ MODKEY|WLR_MODIFIER_ALT|WLR_MODIFIER_SHIFT,   XKB_KEY_H,      incrogaps,      {.i = +1 } },
+	{ MODKEY|WLR_MODIFIER_ALT|WLR_MODIFIER_SHIFT,   XKB_KEY_L,      incrogaps,      {.i = -1 } },
+	{ MODKEY|WLR_MODIFIER_ALT|WLR_MODIFIER_CTRL,    XKB_KEY_h,      incrigaps,      {.i = +1 } },
+	{ MODKEY|WLR_MODIFIER_ALT|WLR_MODIFIER_CTRL,    XKB_KEY_l,      incrigaps,      {.i = -1 } },
+	{ MODKEY|WLR_MODIFIER_ALT,   XKB_KEY_0,                togglegaps,     {0} },
+	{ MODKEY|WLR_MODIFIER_ALT|WLR_MODIFIER_SHIFT,   XKB_KEY_parenright,defaultgaps,    {0} },
+	{ MODKEY,                    XKB_KEY_y,                incrihgaps,       {.i = +1 } },
+	{ MODKEY,                    XKB_KEY_o,                incrihgaps,       {.i = -1 } },
+	{ MODKEY|WLR_MODIFIER_CTRL,  XKB_KEY_y,                incrivgaps,       {.i = +1 } },
+	{ MODKEY|WLR_MODIFIER_CTRL,  XKB_KEY_o,                incrivgaps,       {.i = -1 } },
+	{ MODKEY|WLR_MODIFIER_ALT,   XKB_KEY_y,                incrohgaps,       {.i = +1 } },
+	{ MODKEY|WLR_MODIFIER_ALT,   XKB_KEY_o,                incrohgaps,       {.i = -1 } },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Y,                incrovgaps,       {.i = +1 } },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_O,                incrovgaps,       {.i = -1 } },
 	{ MODKEY,                    XKB_KEY_h,                setmfact,         {.f = -0.05} },
 	{ MODKEY,                    XKB_KEY_l,                setmfact,         {.f = +0.05} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Return,           zoom,             {0} },
