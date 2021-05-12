@@ -22,7 +22,7 @@ static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 static const Rule rules[] = {
 	/* app_id     title       tags mask     isfloating   monitor */
     { "telegramdesktop", NULL, 1 << 7,      0,           -1 },
-    { "discord",         NULL, 1 << 8,      0,           -1 },
+    { "discord",         NULL, 1 << 7,      0,           -1 },
     { "Spotify",         NULL, 1 << 8,      0,           -1 },
 };
 
@@ -41,8 +41,8 @@ static const MonitorRule monrules[] = {
 };
 
 /* keyboard */
-static const int repeat_rate = 25;
-static const int repeat_delay = 600;
+static const int repeat_rate = 45;
+static const int repeat_delay = 350;
 static const struct xkb_rule_names xkb_rules = {
 	/* can specify fields: rules, model, layout, variant, options */
     .options = "caps:swapescape,altwin:swap_alt_win",
